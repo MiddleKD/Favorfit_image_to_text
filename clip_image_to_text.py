@@ -35,10 +35,8 @@ def load_interrogator(model_path, caption_model_name="blip-base", device="cpu"):
     return clip_intrerrogator
 
 
-def inference(img_pil, model, mode="fast", idle_device="cpu", device="cuda"):
-    model = model.to(device)
+def inference(img_pil, model, mode="fast"):
     result = model(img_pil, mode=mode)
-    model = model.to(idle_device)
     return result
     
 
