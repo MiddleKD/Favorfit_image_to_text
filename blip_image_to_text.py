@@ -21,10 +21,14 @@ def load_interrogator(model_path, vit="base", device="cpu"):
     return model
 
 
-def inference(img_pil, model):
+def inference(img_pil, model, idle_device="cpu", device="cuda"):
     img_ts = transform_pil(img_pil, image_size=384, device=next(model.parameters()).device)
+
+    model = model.to(device)
     with torch.no_grad():
         caption = model.generate(img_ts, sample=True, top_p=0.9, max_length=20, min_length=5)[0]
+    model = model.to(idle_device)
+    
     return caption
 
 
